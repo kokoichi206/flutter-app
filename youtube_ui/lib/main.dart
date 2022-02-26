@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youtube_ui/screens/home.dart';
+import 'package:youtube_ui/screens/home_tabs.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white, foregroundColor: Colors.black),
       ),
-      home: const Home(),
+      home: const HomeTabs(),
     );
   }
 }

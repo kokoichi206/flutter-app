@@ -102,6 +102,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
+  numeral:
+    dependency: "direct main"
+    description:
+      name: numeral
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.5"
   path:
     dependency: transitive
     description:
@@ -109,6 +116,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  scroll_app_bar:
+    dependency: "direct main"
+    description:
+      name: scroll_app_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
+  scroll_bars_common:
+    dependency: transitive
+    description:
+      name: scroll_bars_common
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -156,6 +177,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.8"
+  timeago:
+    dependency: "direct main"
+    description:
+      name: timeago
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.2.2"
   typed_data:
     dependency: transitive
     description:

@@ -52,7 +52,9 @@ class _HomeState extends State<Home> {
       body: ListView.builder(
         itemCount: videos.length,
         itemBuilder: (context, i) {
-          return Video();
+          return Video(
+            video: videos[i]
+          );
         }),
     );
   }

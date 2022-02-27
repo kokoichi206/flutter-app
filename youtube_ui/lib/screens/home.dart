@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:scroll_app_bar/scroll_app_bar.dart';
 import 'package:youtube_ui/widgets/video.dart';
 
 class Home extends StatefulWidget {
@@ -45,11 +46,14 @@ class _HomeState extends State<Home> {
     });
   }
 
+  final controller = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: navBar(context),
       body: ListView.builder(
+        controller: controller,
         itemCount: videos.length,
         itemBuilder: (context, i) {
           return Video(
@@ -59,8 +63,9 @@ class _HomeState extends State<Home> {
     );
   }
 
-  AppBar navBar(BuildContext context) {
-    return AppBar( 
+  PreferredSizeWidget navBar(BuildContext context) {
+    return ScrollAppBar(
+      controller: controller,
       title: Image.asset(
         "assets/images/logo.png",
         height: 30,

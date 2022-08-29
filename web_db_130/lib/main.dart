@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main() {
   runApp(const MyApp());
@@ -23,11 +25,49 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String? _result;
+  bool _isLoading = false;
+
   final _formKey = GlobalKey<FormState>();
   final _textEditController = TextEditingController();
 
+  Future<void> _translate(String sentence) async {
+    setState(() {
+      _isLoading = true;
+    });
+    final url = Uri.parse('https://labs.goo.ne.jp/api/hiragana');
+    final headers = {'Content-Type': 'application/json'};
+    final body = json.encode({
+      'app_id': 'my-token',
+      'sentence': sentence,
+      'output_type': 'hiragana'
+    });
+    final response = await http.post(
+      url,
+      headers: headers,
+      body: body,
+    );
+    final responseJson = json.decode(response.body) as Map<String, dynamic>;
+    debugPrint(responseJson['converted']);
+    setState(() {
+      _result = responseJson['converted'];
+      _isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final result = _result;
+    if (result != null) {
+      return _Result(sentence: result, onTapBack: (){
+        setState(() {
+          _result = null;
+        });
+      });
+    } else if (_isLoading) {
+      return const _Loading();
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Translate App"),
@@ -40,6 +80,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: TextFormField(
+                controller: _textEditController,
                 maxLength: 5,
                 decoration: const InputDecoration(
                   hintText: 'Write something',
@@ -55,6 +96,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 20),
             ElevatedButton(
                 onPressed: (){
+                  _translate(_textEditController.text);
                   final formState = _formKey.currentState!;
                   if (!formState.validate()) {
                     return;
@@ -75,6 +117,51 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     _textEditController.dispose();
     super.dispose();
+  }
+}
+
+class _Loading extends StatelessWidget {
+  const _Loading({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+}
+
+class _Result extends StatelessWidget {
+  const _Result({
+    super.key,
+    required this.sentence,
+    required this.onTapBack,
+  });
+
+  final String sentence;
+  final void Function() onTapBack;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: const BoxConstraints.expand(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(sentence),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: onTapBack,
+            child: const Text(
+              'Retry',
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 

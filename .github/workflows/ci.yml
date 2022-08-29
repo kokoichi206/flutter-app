@@ -1,0 +1,60 @@
+name: Deploy apk (Android)
+
+on:
+  # 手動実行できるようにする！
+  workflow_dispatch:
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '**.md'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      ENCODED_RELEASE_KEYSTORE: ${{ secrets.ENCODED_RELEASE_KEYSTORE }}
+      RELEASE_KEYSTORE_STORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_STORE_PASSWORD }}
+      RELEASE_KEYSTORE_KEY_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_KEY_PASSWORD }}
+    defaults:
+      run:
+        # 動かしたい Flutter のトップ階層
+        working-directory: ./web_db_130/
+
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v2
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.0.5'
+          channel: 'stable'
+      - run: flutter --version
+
+      # key.jks をデコードする。
+      - name: Decode Keystore
+        run: echo $ENCODED_RELEASE_KEYSTORE | base64 --decode > ./android/app/key.jks
+
+      # apk形式でビルドする。
+      - name: Build apk
+        run: flutter build apk
+
+      - name: Check dir
+        run: |
+          echo "===== build/app/outputs/flutter-apk ====="
+          ls build/app/outputs/flutter-apk
+          echo
+          echo "===== build/app/outputs/apk/release ====="
+          ls build/app/outputs/apk/release
+
+      # artifact に保存
+      - name: Upload outputs files
+        uses: actions/upload-artifact@v2
+        with:
+          name: outputs
+          # 保存したいフォルダ（ここが適切かは検討）。
+          path: ./web_db_130/build/app/outputs/flutter-apk
+          if-no-files-found: error
+          retention-days: 3

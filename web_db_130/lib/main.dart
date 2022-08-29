@@ -24,6 +24,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _formKey = GlobalKey<FormState>();
+  final _textEditController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,11 @@ class _HomePageState extends State<HomePage> {
             ElevatedButton(
                 onPressed: (){
                   final formState = _formKey.currentState!;
-                  formState.validate();
+                  if (!formState.validate()) {
+                    return;
+                  };
+
+                  debugPrint('text = ${_textEditController.text}');
                 },
                 child: const Text(
                   'Translate',
@@ -64,6 +69,12 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _textEditController.dispose();
+    super.dispose();
   }
 }
 

@@ -16,6 +16,7 @@ jobs:
       ENCODED_RELEASE_KEYSTORE: ${{ secrets.ENCODED_RELEASE_KEYSTORE }}
       RELEASE_KEYSTORE_STORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_STORE_PASSWORD }}
       RELEASE_KEYSTORE_KEY_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_KEY_PASSWORD }}
+      API_KEY: ${{ secrets.API_KEY }}
     defaults:
       run:
         # 動かしたい Flutter のトップ階層
@@ -39,7 +40,7 @@ jobs:
 
       # apk形式でビルドする。
       - name: Build apk
-        run: flutter build apk
+        run: flutter build apk --dart-define=API_KEY=$API_KEY
 
       - name: Check dir
         run: |

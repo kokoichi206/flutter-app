@@ -6,6 +6,10 @@ void main() {
   runApp(const MyApp());
 }
 
+class EnvironmentVariables {
+  static const apiKey = String.fromEnvironment('API_KEY');
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -38,7 +42,7 @@ class _HomePageState extends State<HomePage> {
     final url = Uri.parse('https://labs.goo.ne.jp/api/hiragana');
     final headers = {'Content-Type': 'application/json'};
     final body = json.encode({
-      'app_id': 'my-token',
+      'app_id': EnvironmentVariables.apiKey,
       'sentence': sentence,
       'output_type': 'hiragana'
     });

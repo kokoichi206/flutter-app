@@ -23,6 +23,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,25 +31,37 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Translate App"),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: TextField(
-              maxLength: 5,
-              decoration: InputDecoration(
-                hintText: 'Write something',
+      body: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: TextFormField(
+                maxLength: 5,
+                decoration: const InputDecoration(
+                  hintText: 'Write something',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Should not be empty.';
+                  }
+                  return null;
+                }
               ),
             ),
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-              onPressed: (){},
-              child: const Text(
-                'Translate',
-              ))
-        ],
+            const SizedBox(height: 20),
+            ElevatedButton(
+                onPressed: (){
+                  final formState = _formKey.currentState!;
+                  formState.validate();
+                },
+                child: const Text(
+                  'Translate',
+                ))
+          ],
+        ),
       ),
     );
   }

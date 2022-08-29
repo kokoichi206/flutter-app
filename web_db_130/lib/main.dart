@@ -11,7 +11,45 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Translate App',
-      home: Container(),
+      home: HomePage(),
+    );
+  }
+}
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Translate App"),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: TextField(
+              maxLength: 5,
+              decoration: InputDecoration(
+                hintText: 'Write something',
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+              onPressed: (){},
+              child: const Text(
+                'Translate',
+              ))
+        ],
+      ),
     );
   }
 }

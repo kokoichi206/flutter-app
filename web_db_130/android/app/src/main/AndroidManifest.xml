@@ -1,10 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.web_db_130">
+    package="jp.mydns.kokoichi0206.genius.translator">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
    <application
-        android:label="web_db_130"
+        android:label="GTranslator"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

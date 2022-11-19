@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -28,13 +29,13 @@ class HomeScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Good morning",
+                          AppLocalizations.of(context)!.goodMorning,
                           style: Styles.headLineStyle3,
                         ),
                         // Padding !
                         const Gap(5),
                         Text(
-                          "Book Tickets",
+                            AppLocalizations.of(context)!.bookTickets,
                           style: Styles.headLineStyle1,
                         ),
                       ],

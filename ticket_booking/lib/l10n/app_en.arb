@@ -1,0 +1,8 @@
+{
+    "goodMorning": "Good morning",
+    "@goodMorning": {
+      "description": "The conventional newborn programmer greeting"
+    },
+
+    "bookTickets": "Book Tickets"
+}

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:state_management/blocks/workouts_cubit.dart';
+import 'package:state_management/screens/home_page.dart';
 
 import 'model/workout.dart';
 
@@ -33,7 +34,7 @@ class WorkoutTime extends StatelessWidget {
         },
         child: BlocBuilder<WorkoutsCubit, List<Workout>>(
           builder: (context, state) {
-            return Center(child: const Text("hi there"));
+            return const HomePage();
           },
         ),
       ),

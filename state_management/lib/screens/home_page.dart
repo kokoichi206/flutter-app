@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:state_management/blocks/workout_cubit.dart';
 import 'package:state_management/blocks/workouts_cubit.dart';
 import 'package:state_management/model/workout.dart';
 import 'package:state_management/utils/helpers.dart';
@@ -31,9 +32,14 @@ class HomePage extends StatelessWidget {
                         horizontal: 0,
                         vertical: VisualDensity.maximumDensity,
                       ),
-                      leading: const IconButton(
-                        onPressed: null,
-                        icon: Icon(Icons.edit),
+                      leading: IconButton(
+                        onPressed: () {
+                          print("home_page.dart onPressed(): workout ${workout}");
+                          print("home_page.dart onPressed(): workouts.indexOf(workout) ${workouts.indexOf(workout)}");
+                          BlocProvider.of<WorkoutCubit>(context)
+                              .editWorkout(workout, workouts.indexOf(workout));
+                        },
+                        icon: const Icon(Icons.edit),
                       ),
                       title: Text(workout.title!),
                       trailing: Text(formatTime(workout.getTotal(), true)),
@@ -48,9 +54,11 @@ class HomePage extends StatelessWidget {
                                 horizontal: 0,
                                 vertical: VisualDensity.maximumDensity,
                               ),
-                              leading: Text(formatTime(workout.exercises[index].prelude!, true)),
+                              leading: Text(formatTime(
+                                  workout.exercises[index].prelude!, true)),
                               title: Text(workout.exercises[index].title!),
-                              trailing: Text(formatTime(workout.exercises[index].duration!, true)),
+                              trailing: Text(formatTime(
+                                  workout.exercises[index].duration!, true)),
                             )),
                   ),
                 )

@@ -19,9 +19,7 @@ class Exercise extends Equatable {
   final int? startTime;
 
   // special constructor
-  factory Exercise.fromJson(
-          Map<String, dynamic> json, int index, int startTime) =>
-      Exercise(
+  factory Exercise.fromJson(Map<String, dynamic> json, int index, int startTime) => Exercise(
         title: json["title"],
         prelude: json["prelude"],
         duration: json["duration"],
@@ -34,6 +32,14 @@ class Exercise extends Equatable {
         "prelude": prelude,
         "duration": duration,
       };
+
+  Exercise copyWith({int? prelude, String? title, int? duration, int? index, int? startTime}) => Exercise(
+        prelude: prelude ?? this.prelude,
+        title: title ?? this.title,
+        duration: duration ?? this.duration,
+        index: index ?? this.index,
+        startTime: startTime ?? this.startTime,
+      );
 
   @override
   // TODO: implement props

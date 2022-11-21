@@ -6,10 +6,9 @@ import '../states/workout_states.dart';
 class WorkoutCubit extends Cubit<WorkoutState> {
   WorkoutCubit() : super(const WorkoutInitial());
 
-  editWorkout(Workout workout, int index) =>
-      emit(WorkoutEditing(workout, index));
+  editWorkout(Workout workout, int index) => emit(WorkoutEditing(workout, index, null));
 
-  goHome() {
-    emit(const WorkoutInitial());
-  }
+  editExercise(int? exIndex) => emit(WorkoutEditing(state.workout, (state as WorkoutEditing).index, exIndex));
+
+  goHome() => emit(const WorkoutInitial());
 }

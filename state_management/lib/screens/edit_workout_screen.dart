@@ -5,6 +5,8 @@ import 'package:state_management/model/exercise.dart';
 import 'package:state_management/states/workout_states.dart';
 import 'package:state_management/utils/helpers.dart';
 
+import 'edit_exercise_screen.dart';
+
 class EditWorkoutScreen extends StatelessWidget {
   const EditWorkoutScreen({Key? key}) : super(key: key);
 
@@ -17,27 +19,29 @@ class EditWorkoutScreen extends StatelessWidget {
             return Scaffold(
                 appBar: AppBar(
                   leading: BackButton(
-                    onPressed: () =>
-                        BlocProvider.of<WorkoutCubit>(context).goHome(),
+                    onPressed: () => BlocProvider.of<WorkoutCubit>(context).goHome(),
                   ),
                 ),
                 body: ListView.builder(
-                  // workout is emitted as a state, so we can get it here!
+                    // workout is emitted as a state, so we can get it here!
                     itemCount: we.workout!.exercises.length,
                     itemBuilder: (context, index) {
                       Exercise exercise = we.workout!.exercises[index];
-                      return ListTile(
-                        leading: Text(formatTime(exercise.prelude!, true)),
-                        title: Text(exercise.title!),
-                        trailing: Text(formatTime(exercise.duration!, true)),
-                      );
-                    }
-                )
-            );
+
+                      if (we.exIndex == index) {
+                        return EditExerciseScreen(workout: we.workout, index: we.index, exIndex: we.exIndex);
+                      } else {
+                        return ListTile(
+                          leading: Text(formatTime(exercise.prelude!, true)),
+                          title: Text(exercise.title!),
+                          trailing: Text(formatTime(exercise.duration!, true)),
+                          onTap: () => BlocProvider.of<WorkoutCubit>(context).editExercise(index),
+                        );
+                      }
+                    }));
           },
         ),
         // For android widget ?
-        onWillPop: () => BlocProvider.of<WorkoutCubit>(context).goHome()
-    );
+        onWillPop: () => BlocProvider.of<WorkoutCubit>(context).goHome());
   }
 }

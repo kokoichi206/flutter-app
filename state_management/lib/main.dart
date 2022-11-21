@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,10 +8,28 @@ import 'package:state_management/blocks/workouts_cubit.dart';
 import 'package:state_management/screens/edit_workout_screen.dart';
 import 'package:state_management/screens/home_page.dart';
 import 'package:state_management/states/workout_states.dart';
+import 'package:state_management/utils/workmanager.dart';
+import 'package:workmanager/workmanager.dart';
 
 import 'model/workout.dart';
 
-void main() => runApp(const WorkoutTime());
+void main() {
+  if (Platform.isAndroid) {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    print("Platform is Android, so the WorkManager setup is called.");
+    Workmanager().initialize(
+      callbackDispatcher,
+      isInDebugMode: true,
+    );
+    Workmanager().registerPeriodicTask(
+      "this.should.be.a.unique.name",
+      "mySimpleTask",
+      frequency: const Duration(minutes: 15), //
+    );
+  }
+  runApp(const WorkoutTime());
+}
 
 class WorkoutTime extends StatelessWidget {
   const WorkoutTime({Key? key}) : super(key: key);
@@ -52,7 +72,6 @@ class WorkoutTime extends StatelessWidget {
                 }
                 return Container();
               },
-            )
-        ));
+            )));
   }
 }

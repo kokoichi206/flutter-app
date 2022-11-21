@@ -1,3 +1,4 @@
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,6 +35,8 @@ class WorkoutInProgressScreen extends StatelessWidget {
         "currentExerciseIndex": exercise.index!.toDouble(),
         "workoutRemaining": workoutTotal - workoutElapsed,
         "exerciseRemaining": exerciseRemaining,
+        "exerciseProgress": exerciseElapsed / exerciseTotal,
+        "isPrelude": isPrelude,
       };
     }
 
@@ -44,7 +47,7 @@ class WorkoutInProgressScreen extends StatelessWidget {
           appBar: AppBar(
             title: Text(state.workout!.title.toString()),
             leading: BackButton(
-              onPressed: BlocProvider.of<WorkoutCubit>(context).goHome(),
+              onPressed: BlocProvider.of<WorkoutCubit>(context).goHome,
             ),
           ),
           body: Center(
@@ -63,7 +66,49 @@ class WorkoutInProgressScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(formatTime(stats["workoutElapsed"], true)),
+                        DotsIndicator(
+                          dotsCount: stats["totalExercise"],
+                          position: stats["currentExerciseIndex"],
+                        ),
                         Text("-${formatTime(stats["workoutRemaining"], true)}"),
+                      ],
+                    ),
+                  ),
+                  const Spacer(),
+                  InkWell(
+                    onTap: (){
+                      if (state is WorkoutInProgress) {
+                        BlocProvider.of<WorkoutCubit>(context)
+                            .pauseWorkout();
+                      } else if (state is WorkoutPaused) {
+                        BlocProvider.of<WorkoutCubit>(context)
+                            .resumeWorkout();
+                      }
+                    },
+                    child: Stack(
+                      alignment: const Alignment(0, 0),
+                      children: [
+                        Center(
+                          child: SizedBox(
+                            height: 220,
+                            width: 220,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(stats["isPrelude"] ? Colors.red : Colors.blue),
+                              strokeWidth: 25,
+                              value: stats["exerciseProgress"],
+                            ),
+                          ),
+                        ),
+                        Center(
+                          child: SizedBox(
+                            height: 300,
+                            width: 300,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: Image.asset("stopwatch.png"),
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   )

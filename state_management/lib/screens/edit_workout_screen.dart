@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:state_management/blocks/workout_cubit.dart';
+import 'package:state_management/blocks/workouts_cubit.dart';
 import 'package:state_management/model/exercise.dart';
+import 'package:state_management/model/workout.dart';
 import 'package:state_management/states/workout_states.dart';
 import 'package:state_management/utils/helpers.dart';
 
@@ -20,6 +22,34 @@ class EditWorkoutScreen extends StatelessWidget {
                 appBar: AppBar(
                   leading: BackButton(
                     onPressed: () => BlocProvider.of<WorkoutCubit>(context).goHome(),
+                  ),
+                  title: InkWell(
+                    child: Text(we.workout!.title!),
+                    onTap: () => showDialog(
+                      context: context,
+                      builder: (_) {
+                        final controller = TextEditingController(text: we.workout!.title!);
+                        return AlertDialog(
+                          content: TextField(
+                            controller: controller,
+                            decoration: InputDecoration(labelText: "Workout Title"),
+                          ),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  if (controller.text.isNotEmpty) {
+                                    Navigator.pop(context);
+                                    Workout renamed = we.workout!.copyWith(title: controller.text);
+
+                                    BlocProvider.of<WorkoutsCubit>(context).saveWorkout(renamed, we.index);
+                                    BlocProvider.of<WorkoutCubit>(context).editWorkout(renamed, we.index);
+                                  }
+                                },
+                                child: Text("Rename"))
+                          ],
+                        );
+                      },
+                    ),
                   ),
                 ),
                 body: ListView.builder(

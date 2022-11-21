@@ -26,8 +26,7 @@ class HomePage extends StatelessWidget {
                 .map(
                   (workout) => ExpansionPanelRadio(
                     value: workout,
-                    headerBuilder: (BuildContext context, bool isExpanded) =>
-                        ListTile(
+                    headerBuilder: (BuildContext context, bool isExpanded) => ListTile(
                       visualDensity: const VisualDensity(
                         horizontal: 0,
                         vertical: VisualDensity.maximumDensity,
@@ -36,29 +35,26 @@ class HomePage extends StatelessWidget {
                         onPressed: () {
                           print("home_page.dart onPressed(): workout ${workout}");
                           print("home_page.dart onPressed(): workouts.indexOf(workout) ${workouts.indexOf(workout)}");
-                          BlocProvider.of<WorkoutCubit>(context)
-                              .editWorkout(workout, workouts.indexOf(workout));
+                          BlocProvider.of<WorkoutCubit>(context).editWorkout(workout, workouts.indexOf(workout));
                         },
                         icon: const Icon(Icons.edit),
                       ),
                       title: Text(workout.title!),
                       trailing: Text(formatTime(workout.getTotal(), true)),
+                      onTap: () => !isExpanded ? BlocProvider.of<WorkoutCubit>(context).startWorkout(workout) : null,
                     ),
                     body: ListView.builder(
                         shrinkWrap: true,
                         itemCount: workout.exercises.length,
-                        itemBuilder: (BuildContext context, int index) =>
-                            ListTile(
+                        itemBuilder: (BuildContext context, int index) => ListTile(
                               onTap: null,
                               visualDensity: const VisualDensity(
                                 horizontal: 0,
                                 vertical: VisualDensity.maximumDensity,
                               ),
-                              leading: Text(formatTime(
-                                  workout.exercises[index].prelude!, true)),
+                              leading: Text(formatTime(workout.exercises[index].prelude!, true)),
                               title: Text(workout.exercises[index].title!),
-                              trailing: Text(formatTime(
-                                  workout.exercises[index].duration!, true)),
+                              trailing: Text(formatTime(workout.exercises[index].duration!, true)),
                             )),
                   ),
                 )

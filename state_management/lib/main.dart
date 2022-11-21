@@ -9,6 +9,7 @@ import 'package:state_management/blocks/workout_cubit.dart';
 import 'package:state_management/blocks/workouts_cubit.dart';
 import 'package:state_management/screens/edit_workout_screen.dart';
 import 'package:state_management/screens/home_page.dart';
+import 'package:state_management/screens/workout_in_progress_screen.dart';
 import 'package:state_management/states/workout_states.dart';
 import 'package:state_management/utils/workmanager.dart';
 import 'package:workmanager/workmanager.dart';
@@ -74,7 +75,7 @@ class WorkoutTime extends StatelessWidget {
                 } else if (state is WorkoutEditing) {
                   return const EditWorkoutScreen();
                 }
-                return Container();
+                return const WorkoutInProgressScreen();
               },
             )));
   }

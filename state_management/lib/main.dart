@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:state_management/blocks/workout_cubit.dart';
 import 'package:state_management/blocks/workouts_cubit.dart';
 import 'package:state_management/screens/edit_workout_screen.dart';
@@ -13,7 +15,7 @@ import 'package:workmanager/workmanager.dart';
 
 import 'model/workout.dart';
 
-void main() {
+void main() async {
   if (Platform.isAndroid) {
     WidgetsFlutterBinding.ensureInitialized();
 
@@ -28,7 +30,9 @@ void main() {
       frequency: const Duration(minutes: 15), //
     );
   }
-  runApp(const WorkoutTime());
+
+  final storage = await HydratedStorage.build(storageDirectory: await getApplicationDocumentsDirectory());
+  HydratedBlocOverrides.runZoned(() => runApp(const WorkoutTime()), storage: storage);
 }
 
 class WorkoutTime extends StatelessWidget {

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_picker_sample/select_photo_options_screen.dart';
 
@@ -21,6 +22,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
       if (image == null) return;
       File? img = File(image.path);
       print("image.path: ${image.path}");
+      img = await _cropImage(imageFile: img);
       setState(() {
         _image = img;
 
@@ -30,6 +32,13 @@ class _PickUpScreenState extends State<PickUpScreen> {
       print("e: ${e}");
       Navigator.of(context).pop();
     }
+  }
+
+  Future<File?> _cropImage({required File imageFile}) async {
+    CroppedFile? croppedImage =
+        await ImageCropper().cropImage(sourcePath: imageFile.path);
+    if (croppedImage == null) return null;
+    return File(croppedImage.path);
   }
 
   void _showSelectPhotoOptions(BuildContext context) {

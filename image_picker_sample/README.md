@@ -1,16 +1,9 @@
 # image_picker_sample
 
-A new Flutter project.
+Thank you for [this youtube](https://www.youtube.com/watch?v=DJ5wbMR_EWI&ab_channel=AJFlutterTutorials)!
 
-## Getting Started
+## Links
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [BoxFit enum](https://api.flutter.dev/flutter/painting/BoxFit.html)
+- [Flutter ちょっと Tips 〜要素サイズいっぱいに表示する〜](https://qiita.com/Idenon/items/22fcdff1a2b4d89916bd)
+- [image_picker](https://pub.dev/packages/image_picker)

@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/select_photo_options_screen.dart';
 
@@ -10,6 +11,13 @@ class PickUpScreen extends StatefulWidget {
 }
 
 class _PickUpScreenState extends State<PickUpScreen> {
+
+  File? _image;
+
+  Future _pickImage(ImageSource source) async {
+
+  };
+
   void _showSelectPhotoOptions(BuildContext context) {
     showModalBottomSheet(
       context: context,
